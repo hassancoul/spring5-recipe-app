@@ -1,8 +1,17 @@
 package guru.springframework.models;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"recipes"})
 @Entity
 public class Category {
 
@@ -10,39 +19,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     private String description;
 
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe> recipes;
-
-    public Category() {
-    }
-
-    public Category(String description) {
-        this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(Set<Recipe> recipes) {
-        this.recipes = recipes;
-    }
 }

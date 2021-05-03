@@ -4,7 +4,7 @@ import guru.springframework.models.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMesureRepository;
-import org.springframework.context.ApplicationEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -30,6 +31,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(getRecipes());
+        log.debug("saving recipe to database:::");
     }
 
     private Set<Recipe> getRecipes() {
@@ -39,6 +41,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Optional<Category> italianOptional = categoryRepository.findByDescription("Italian");
         Optional<Category> mexicainOptional = categoryRepository.findByDescription("Mexicain");
         Optional<Category> fastFoodOptional = categoryRepository.findByDescription("Fast Food");
+        log.debug("loading category:::");
 
         Optional<UnitOfMesure> teaspoonOptional = unitOfMesureRepository.findByUnit("Teaspoon");
         Optional<UnitOfMesure> tablespoonOptional = unitOfMesureRepository.findByUnit("Tablespoon");
@@ -47,6 +50,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Optional<UnitOfMesure> ounceOptional = unitOfMesureRepository.findByUnit("Ounce");
         Optional<UnitOfMesure> ripeOptional = unitOfMesureRepository.findByUnit("Ripe");
         Optional<UnitOfMesure> dashOptional = unitOfMesureRepository.findByUnit("Dash");
+        log.debug("loading unit of measure:::");
 
         if (!americainOptional.isPresent()) {
             throw new RuntimeException("Category not found");
