@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
@@ -29,6 +30,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(getRecipes());
         log.debug("saving recipe to database:::");
@@ -92,7 +94,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         recipeGuacamole.setCooktime(0);
         recipeGuacamole.setPrepTime(10);
         recipeGuacamole.setServings(4);
-        Notes notesGuacamol = new Notes("Be careful handling chiles if using. " +
+        Notes notesGuacamol = new Notes();
+        notesGuacamol.setRecipeNotes("Be careful handling chiles if using. " +
                 "Wash your hands thoroughly after handling and do not touch your eyes or the area near your eyes " +
                 "with your hands for several hours.");
         recipeGuacamole.setNotes(notesGuacamol);

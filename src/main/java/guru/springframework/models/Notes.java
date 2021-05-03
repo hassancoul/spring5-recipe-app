@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(exclude = {"recipe"})
+@NoArgsConstructor
 @Entity
 public class Notes {
 
@@ -16,7 +17,6 @@ public class Notes {
     @OneToOne
     private Recipe recipe;
 
-    @NonNull
     @Lob
     private String recipeNotes;
 
